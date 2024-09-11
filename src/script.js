@@ -105,6 +105,18 @@ window.addEventListener("touchmove", (e) => {
   const touch = e.touches[0];
   updateCursor(touch.clientX, touch.clientY);
 });
+// Para dispositivos móviles (orientación del dispositivo)
+if (window.DeviceOrientationEvent) {
+  window.addEventListener("deviceorientation", (event) => {
+    // Ajustar los valores según la rotación del dispositivo
+    const rotationX = event.beta; // Inclinar adelante/atrás
+    const rotationY = event.gamma; // Inclinar izquierda/derecha
+
+    // Normalizar el rango de beta y gamma a valores entre -0.5 y 0.5
+    cursor.x = rotationY / 90; // Normalizar gamma a un rango [-0.5, 0.5]
+    cursor.y = rotationX / 90; // Normalizar beta a un rango [-0.5, 0.5]
+  });
+}
 
 // Scene
 const scene = new THREE.Scene();
