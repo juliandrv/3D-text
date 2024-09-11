@@ -118,8 +118,8 @@ window.addEventListener("touchmove", (e) => {
 if (window.DeviceOrientationEvent) {
   window.addEventListener("deviceorientation", (event) => {
     // Ajustar los valores según la rotación del dispositivo
-    const rotationX = event.beta; // Inclinar adelante/atrás
-    const rotationY = event.gamma; // Inclinar izquierda/derecha
+    let rotationX = event.beta; // Inclinar adelante/atrás
+    let rotationY = event.gamma; // Inclinar izquierda/derecha
 
     // Limitar los valores para evitar que el texto se "acueste"
     rotationX = Math.min(Math.max(rotationX, -45), 45); // Limita el rango entre -45 y 45 grados
