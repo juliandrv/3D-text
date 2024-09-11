@@ -113,8 +113,8 @@ if (window.DeviceOrientationEvent) {
     const rotationY = event.gamma; // Inclinar izquierda/derecha
 
     // Normalizar el rango de beta y gamma a valores entre -0.5 y 0.5
-    cursor.x = rotationY / 45; // Normalizar gamma a un rango [-0.5, 0.5]
-    cursor.y = rotationX / 45; // Normalizar beta a un rango [-0.5, 0.5]
+    cursor.x = rotationY / 135; // Normalizar gamma a un rango [-0.5, 0.5]
+    cursor.y = rotationX / 135; // Normalizar beta a un rango [-0.5, 0.5]
   });
 }
 
