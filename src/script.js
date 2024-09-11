@@ -92,6 +92,15 @@ const cursor = {
   x: 0,
   y: 0,
 };
+const smoothCursor = {
+  x: 0,
+  y: 0,
+};
+// Función lerp (interpolación lineal)
+const lerp = (start, end, t) => {
+  return start + (end - start) * t;
+};
+
 const updateCursor = (clientX, clientY) => {
   cursor.x = clientX / sizes.width - 0.5;
   cursor.y = -(clientY / sizes.height - 0.5);
@@ -112,9 +121,13 @@ if (window.DeviceOrientationEvent) {
     const rotationX = event.beta; // Inclinar adelante/atrás
     const rotationY = event.gamma; // Inclinar izquierda/derecha
 
+    // Limitar los valores para evitar que el texto se "acueste"
+    rotationX = Math.min(Math.max(rotationX, -45), 45); // Limita el rango entre -45 y 45 grados
+    rotationY = Math.min(Math.max(rotationY, -45), 45); // Limita el rango entre -45 y 45 grados
+
     // Normalizar el rango de beta y gamma a valores entre -0.5 y 0.5
-    cursor.x = rotationY / 135; // Normalizar gamma a un rango [-0.5, 0.5]
-    cursor.y = rotationX / 135; // Normalizar beta a un rango [-0.5, 0.5]
+    cursor.x = rotationY / 90; // Normalizar gamma a un rango [-0.5, 0.5]
+    cursor.y = rotationX / 90; // Normalizar beta a un rango [-0.5, 0.5]
   });
 }
 
@@ -224,14 +237,15 @@ const tick = () => {
   // clock
   const elapsedTime = clock.getElapsedTime();
 
+  // Aplicar lerp para suavizar el movimiento
+  smoothCursor.x = lerp(smoothCursor.x, cursor.x, 0.05); // El tercer parámetro controla la suavidad (más bajo = más suave)
+  smoothCursor.y = lerp(smoothCursor.y, cursor.y, 0.05);
+
+  camera.position.x = -Math.sin(smoothCursor.x) * 10;
+  camera.position.y = -smoothCursor.y * 10;
+  camera.position.z = Math.cos(smoothCursor.x) * 3;
+
   // update objects
-  // mesh.rotation.x = elapsedTime;
-  // mesh.rotation.y = elapsedTime;
-
-  camera.position.x = -Math.sin(cursor.x * Math.PI * 0.5) * 7;
-  camera.position.y = -cursor.y * 8;
-  camera.position.z = Math.cos(cursor.x * Math.PI * 0.1) * 3;
-
   if (textGroup && group) {
     textGroup.rotation.x = Math.sin(elapsedTime * 0.3) * 0.3;
     textGroup.rotation.z = Math.cos(elapsedTime * 0.3) * 0.4;
