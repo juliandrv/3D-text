@@ -8,7 +8,7 @@ import { TextGeometry } from "three/examples/jsm/geometries/TextGeometry.js";
  * Debug
  */
 const gui = new GUI();
-gui.close();
+gui.hide();
 
 /**
  * Textures
@@ -92,9 +92,18 @@ const cursor = {
   x: 0,
   y: 0,
 };
+const updateCursor = (clientX, clientY) => {
+  cursor.x = clientX / sizes.width - 0.5;
+  cursor.y = -(clientY / sizes.height - 0.5);
+};
+
 window.addEventListener("mousemove", (e) => {
-  cursor.x = e.clientX / sizes.width - 0.5;
-  cursor.y = -(e.clientY / sizes.height - 0.5);
+  updateCursor(e.clientX, e.clientY);
+});
+window.addEventListener("touchmove", (e) => {
+  // Toma el primer toque (puedes ajustar esto para múltiples toques si es necesario)
+  const touch = e.touches[0];
+  updateCursor(touch.clientX, touch.clientY);
 });
 
 // Scene
