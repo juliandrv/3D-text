@@ -247,7 +247,7 @@ const tick = () => {
 
   // update objects
   if (textGroup && group) {
-    textGroup.rotation.x = Math.sin(elapsedTime * 0.3) * 0.3;
+    textGroup.rotation.x = Math.sin(elapsedTime * 0.3) * 0.2;
     textGroup.rotation.z = Math.cos(elapsedTime * 0.3) * 0.4;
 
     group.rotation.x = Math.cos(elapsedTime * 0.1) * 0.6;
